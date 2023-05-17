@@ -9,6 +9,13 @@
 
   <?php include ("layouts/header.php");?>
 
+  <?php 
+    if (!isset($_SESSION['user_id'])){
+      echo "<script> location.href='index.php'; </script>";
+    }
+  ?>
+
+
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Mar 09 2023 with Bootstrap v5.2.3
@@ -33,9 +40,7 @@
           
             $conn = $GLOBALS['conn'];
 
-            $sql = "SELECT candidates.name, candidates.color, COUNT(votes.candidate_id) AS total_suara 
-            FROM `votes` INNER JOIN candidates ON candidates.id = votes.candidate_id
-            GROUP BY candidate_id;"; 
+            $sql = "SELECT * FROM hasil_voting"; 
             $result = $conn->query($sql);
 
             $candidates = "";
@@ -47,6 +52,13 @@
                     $suara .= $row['total_suara'].",";
                     $candidates .= "'".$row['name']."',";
                     $color .= "'".$row['color']."',";
+                }
+            } else{
+                echo "<script> alert('Pemungutan belum dimulai'); </script>";
+                if($_SESSION['user_role'] == 0) {
+                    echo "<script> location.href='dashboard.php'; </script>";
+                } else{
+                    echo "<script> location.href='admin-dashboard.php'; </script>";
                 }
             }
 
@@ -76,7 +88,41 @@
                   }).render();
                 });
               </script>
-              <!-- End Pie Chart -->
+
+
+        <?php 
+          
+            $conn = $GLOBALS['conn'];
+
+            $sql = "SELECT COUNT(id) as total_suara FROM users WHERE admin = 0"; 
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0){
+                while($row = $result->fetch_assoc()) {
+                    $total_suara = $row['total_suara'];
+                }
+            }
+            
+            $sql = "SELECT COUNT(id) as suara_masuk FROM votes"; 
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0){
+                while($row = $result->fetch_assoc()) {
+                    $suara_masuk = $row['suara_masuk'];
+                }
+            }
+            
+            $percent = ($suara_masuk/$total_suara) * 100;
+
+        ?>
+
+            <h5 class="card-title">Total Suara Masuk</h5>
+            <div class="progress w-50">
+                <div class="progress-bar bg-secondary" role="progressbar" style="width: <?php echo $percent; ?>%" aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="<?php echo $percent; ?>"><?php echo $percent; ?>%</div>
+            </div>
+            <div class="w-50">
+                <span class="float-end"><?php echo $suara_masuk; ?> / <?php echo $total_suara; ?> suara</span>
+            </div>
 
             </div>
           </div>

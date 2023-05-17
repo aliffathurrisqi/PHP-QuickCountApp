@@ -9,6 +9,17 @@
 
   <?php include ("layouts/header.php");?>
 
+  <?php 
+    if (!isset($_SESSION['user_id'])){
+      echo "<script> location.href='index.php'; </script>";
+    }
+
+    if($_SESSION['user_role'] != 0){
+      echo "<script> alert('Anda login bukan sebagai user'); </script>";
+      echo "<script> location.href='index.php'; </script>";
+    }
+  ?>
+
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Mar 09 2023 with Bootstrap v5.2.3
@@ -48,6 +59,9 @@
         
         if ($result) {
           while($row = $result->fetch_assoc()) {
+            if($row['image'] == NULL){
+              $row['image'] = "default.jpg";
+            }
         ?>
 
         <div class="col-xl-4">
@@ -55,7 +69,7 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <img src="assets/img/candidate/<?php echo $row['image']; ?>" height="100px"; width="100px" alt="Profile" class="rounded-circle" style="border: 5px solid <?php echo $row['color']; ?>;">
               <h2><?php echo $row['name']; ?></h2>
               <div class="social-links mt-2">
                 <form method="POST">
