@@ -56,10 +56,17 @@ function add_user($username, $password, $name, int $admin, int $created_by) {
 
     $conn = $GLOBALS['conn'];
 
-    $sql = "INSERT INTO users VALUES (NULL, '$username', md5('$password'), '$name', $admin, $created_by, NULL)"; 
-    $conn->query($sql);
+    $sql = "SELECT * FROM users WHERE username = '$username'"; 
+    $result = $conn->query($sql);
+    
+    if ($result->num_rows > 0) {
+        echo "<script> alert('Username sudah terdaftar'); </script>";
+    } else{
+        $sql = "INSERT INTO users VALUES (NULL, '$username', md5('$password'), '$name', $admin, $created_by, NULL)"; 
+        $conn->query($sql);
+        echo "<script> location.href='user.php'; </script>";
+    }
 
-    echo "<script> location.href='user.php'; </script>";
 }
 
 function edit_user($id, $name) {

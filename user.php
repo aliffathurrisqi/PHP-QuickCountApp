@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard - Quick Count</title>
+  <title>Pemilih - Quick Count</title>
 
   <?php include ("layouts/header.php");?>
 
