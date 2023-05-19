@@ -48,6 +48,18 @@
             $color = "";
         
             if ($result->num_rows > 0){
+                if ($result->num_rows < 20){
+                  
+                  echo "<script> alert('Pemungutan suara kurang dari 20 orang, kembali beberapa saat lagi'); </script>";
+                  
+                  if($_SESSION['user_role'] == 0) {
+                    logout();
+                  } else{
+                      echo "<script> location.href='admin-dashboard.php'; </script>";
+                  }
+
+                }
+
                 while($row = $result->fetch_assoc()) {
                     $suara .= $row['total_suara'].",";
                     $candidates .= "'".$row['name']."',";

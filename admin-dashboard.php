@@ -135,7 +135,7 @@
                     </div>
                     <div class="ps-3">
                       <h6><?php echo $total_suara; ?> Suara</h6>
-                      <span class="text-muted small pt-2 ps-1"> <?php echo $total_suara/$total_pemilih; ?> % Telah tercatat</span>
+                      <span class="text-muted small pt-2 ps-1"> <?php if($total_pemilih > 0) { echo ($total_suara/$total_pemilih) * 100; } else echo "0"; ?> % Telah tercatat</span>
 
                     </div>
                   </div>

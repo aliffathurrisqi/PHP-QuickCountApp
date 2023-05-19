@@ -27,8 +27,15 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="candidate.php">
-        <i class="bi bi-people"></i>
+        <i class="bi bi-person"></i>
         <span>Kandidat</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="user.php">
+        <i class="bi bi-people"></i>
+        <span>Pemilih</span>
       </a>
     </li>
   <?php

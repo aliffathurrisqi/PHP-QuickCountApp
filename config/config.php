@@ -56,8 +56,32 @@ function add_user($username, $password, $name, int $admin, int $created_by) {
 
     $conn = $GLOBALS['conn'];
 
-    $sql = "INSERT INTO users VALUES (NULL, '$username', md5('$password'), '$name', $admin, $created_by)"; 
+    $sql = "INSERT INTO users VALUES (NULL, '$username', md5('$password'), '$name', $admin, $created_by, NULL)"; 
     $conn->query($sql);
+
+    echo "<script> location.href='user.php'; </script>";
+}
+
+function edit_user($id, $name) {
+
+    $conn = $GLOBALS['conn'];
+
+    $sql = "UPDATE users SET name = '$name' WHERE id = '$id'"; 
+
+    $conn->query($sql);
+
+    echo "<script> location.href='user.php'; </script>";
+}
+
+function delete_user($id) {
+
+    $conn = $GLOBALS['conn'];
+
+    $sql = "DELETE FROM users WHERE id = '$id'"; 
+
+    $conn->query($sql);
+
+    echo "<script> location.href='user.php'; </script>";
 }
 
 function add_candidate($name, $color) {
@@ -81,6 +105,7 @@ function add_candidate($name, $color) {
 
     echo "<script> location.href='candidate.php'; </script>";
 }
+
 
 function edit_candidate($id, $name, $color) {
 
@@ -142,7 +167,7 @@ function votes($id, $candidates) {
 
     $conn = $GLOBALS['conn'];
 
-    $sql = "INSERT INTO votes VALUES (NULL, '$candidates', '$id')"; 
+    $sql = "INSERT INTO votes VALUES (NULL, '$candidates', md5('$id'))"; 
     $conn->query($sql);
 
     echo "<script> location.href='result.php'; </script>";
@@ -164,10 +189,9 @@ function check() {
 }
 
 function logout(){
-    session_start();
     session_destroy();
  
-    header("Location: index.php");
+    echo "<script> location.href='index.php'; </script>";
 }
 
 session_start();

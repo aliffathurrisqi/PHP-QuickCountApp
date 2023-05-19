@@ -46,7 +46,7 @@
 
         $user_id = $_SESSION['user_id'];
 
-        $cek_suara = "SELECT * FROM votes WHERE voted_by = $user_id"; 
+        $cek_suara = "SELECT * FROM votes WHERE voted_by = md5($user_id)"; 
         $hasil_cek = $conn->query($cek_suara);
 
         if($hasil_cek->num_rows > 0){
